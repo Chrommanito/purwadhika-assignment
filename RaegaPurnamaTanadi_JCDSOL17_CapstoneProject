@@ -1,0 +1,175 @@
+# yellow pages (Data kontak telepon)
+import colorama
+from colorama import Back, Fore
+
+colorama.init(autoreset=True)
+
+yellowList = [
+    {
+        'name'      : "JalaPedro's Pizzeria\t\t",
+        'number'    : "889-456-2345",
+        'address'   : "1856 Italia St."
+    },
+    {
+        'name'      : "Jemimah's Fried Chicken",
+        'number'    : "803-522-8566",
+        'address'   : "2002 Musk St."
+    },
+    {
+        'name'      : "Fred & Fred Auto Services",
+        'number'    : "501-467-8852",
+        'address'   : "2030 Masonic Hill Road"
+    },
+    {
+        'name'      : "Hamlin, Hamlin & Mcgill",
+        'number'    : "505-853-8078",
+        'address'   : "100 Constitution Avenue"
+    }
+
+]
+
+def showList():
+    print(f"\n{Fore.LIGHTYELLOW_EX}{Back.BLACK}Contact list")
+    print("Index\t| Name        \t\t\t\t\t\t\t\t| Phone Number  \t\t| Address")
+    for i in range(len(yellowList)):
+        print(
+            f"{int(i + 1)}\t\t| {yellowList[i]['name']}   \t\t\t\t| {yellowList[i]['number']}   \t\t| {yellowList[i]['address']}  \t")
+
+def loginError():
+    print("\nAccess Denied")
+    print("List edit only available for admin access user.")
+    input("\nBack to main menu... ")
+
+
+newUser = True
+adminLogin = False
+
+# Main Menu
+while True:
+    print("\n----Welcome to Phonebook Program!----") if newUser == True else print("\n------------------------------------")
+    print("1. Show Phonebook list")
+    print("2. Add a contact into the phone book")
+    print("3. Update a contact from the phone book")
+    print("4. Delete a contact from the phone book")
+    print("5. Admin login")
+    print("6. Exit Program")
+    menuOptions = input("Select a number from your desired options: ") if newUser == True else input("Please choose a number from the options: ")
+    newUser = False
+    if menuOptions == "1":
+        showList()
+        input("\nBack to main menu... ")
+    elif menuOptions == "2" and adminLogin == True:
+        showList()
+        inputName = input("\nEnter establishment's name: ")
+        inputNumber = input("Enter establishment's number: ")
+        inputAddress = input("Enter establishment's address: ")
+        yellowList.append({
+            'name': inputName,
+            'number': inputNumber,
+            'address': inputAddress })
+        showList()
+        print("\nInput Successful!")
+        input("Back to main menu... ")
+    elif menuOptions == "2" and adminLogin == False:
+        loginError()
+    elif menuOptions == "3" and adminLogin == True:
+        while True:
+            showList()
+            updateIndex = int(input("\nEnter the index number of a contact to be updated: "))-1
+            print("-------- Contact to be Updated --------")
+            print(f"1.  Name    : {yellowList[updateIndex]['name']}")
+            print(f"2.  Number  : {yellowList[updateIndex]['number']}")
+            print(f"3.  Address : {yellowList[updateIndex]['address']}")
+            updateMenu = input("Which detail would you like to update (1/2/3) or exit (E)? ")
+            if updateMenu == "1":
+                while True:
+                    print(f"\nCurrent name: {yellowList[updateIndex]['name']}")
+                    inputEdit = input("Edit? (Y/N) ").upper()
+                    if inputEdit == "Y":
+                        newName = input("Enter new name: ")
+                        if newName == "":
+                            print("\nTry Again")
+                        else:
+                            yellowList[updateIndex]['name'] = newName
+                    else:
+                        break
+            elif updateMenu == "2":
+                while True:
+                    print(f"\nCurrent phone number: {yellowList[updateIndex]['number']}")
+                    inputEdit = input("Edit? (Y/N) ").upper()
+                    if inputEdit == "Y":
+                        newNumber = input("Enter new number: ")
+                        if newNumber == "":
+                            print("\nTry Again")
+                        else:
+                            yellowList[updateIndex]['number'] = newNumber
+                    else:
+                        break
+
+            elif updateMenu == "3":
+                while True:
+                    print(f"\nCurrent address: {yellowList[updateIndex]['adress']}")
+                    inputEdit = input("Edit? (Y/N) ").upper()
+                    if inputEdit == "Y":
+                        newAddress = input("Enter new number: ")
+                        if newAddress == "":
+                            print("\nTry Again")
+                        else:
+                            yellowList[updateIndex]['address'] = newAddress
+                    else:
+                        break
+            elif updateMenu == "e" or updateMenu == "E":
+                break
+            else:
+                print("Please input (1/2/3) ")
+    elif menuOptions == "3" and adminLogin == False:
+        loginError()
+    elif menuOptions == "4" and adminLogin == True:
+        while True:
+            showList()
+            try:
+                indexInput = int(input("\nEnter the desired index number to delete: ")) - 1
+                if indexInput > len(yellowList) or indexInput <= 0:
+                    print("\nPlease input an available index number only")
+                else:
+                    del yellowList[indexInput]
+                    print("\n--- Contact deleted ---")
+                    input("\nBack to main menu... ")
+                    break
+            except:
+                print("\nPlease input an index number only")
+    elif menuOptions == "4" and adminLogin == False:
+        loginError()
+    elif menuOptions == "5" and adminLogin == False:
+        while True:
+            print("\n--- Login ---")
+            userusername = input("Enter username: ")
+            passpassword = input("Enter Password: ")
+            if userusername == "admin" and passpassword == "12345":
+                adminLogin = True
+                print("\nLogin Succesful!")
+                input("\nBack to main menu... ")
+                break
+            else:
+                print("\nAccount invalid")
+                tryAgain = input("Try again? (Y/N) ").upper()
+                if tryAgain == "Y":
+                    pass
+                else:
+                    break
+    elif menuOptions == "5" and adminLogin == True:
+        while True:
+            tryAgain = input("\nWould you like to log out? (Y/N) ").upper()
+            if tryAgain == "Y":
+                adminLogin = False
+                print("\n--- Admin logged out ---")
+                input("\nBack to main menu... ")
+                break
+            else:
+                break
+    elif menuOptions == "6":
+        print("\nGoodbye!")
+        break #
+
+    else:
+        print("\nINVALID INPUT!")

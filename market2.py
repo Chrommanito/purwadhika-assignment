@@ -1,5 +1,6 @@
 # fruit market program v.0.0.1
 # initialize variables
+# dwiajdiwojdwpodw
 
 def print_list_buah(database_buah):
     # print out daftar buah / READ
@@ -160,4 +161,4 @@ while menu!=6:
         print("Input tidak benar!")
 
 
-# 
+# dwdjwofjpfojpfgpefjkpf
